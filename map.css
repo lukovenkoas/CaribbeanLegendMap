@@ -1,0 +1,106 @@
+:root {
+  --ink: #3b2412; --ink2: #6b4a2b; --paper: #efe3c4; --paper2: #e3d3ac; --accent: #8c1d12;
+  --panel-w: 330px; --inv: 1;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: #2a2118; color: var(--ink);
+  font: 14px/1.35 Georgia, "Times New Roman", serif; }
+button { font: inherit; cursor: pointer; }
+
+/* ---------- панель ---------- */
+#panel { position: fixed; left: 0; top: 0; bottom: 0; width: var(--panel-w); overflow-y: auto; z-index: 10;
+  background: linear-gradient(var(--paper), var(--paper2)); border-right: 2px solid #8a6a40;
+  box-shadow: 2px 0 12px rgba(0,0,0,.4); padding: 10px 12px 30px; }
+#panel header { display: flex; align-items: center; justify-content: space-between; }
+#panel h1 { font-size: 19px; margin: 2px 0 6px; color: var(--accent); font-variant: small-caps; letter-spacing: .5px; }
+#panel h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--ink2);
+  margin: 14px 0 4px; border-bottom: 1px solid #b9996a; padding-bottom: 2px; }
+.lang button { border: 1px solid #a5835a; background: transparent; padding: 1px 6px; margin-left: 2px; border-radius: 3px; }
+.lang button.on { background: var(--ink2); color: var(--paper); }
+.chk { display: flex; align-items: center; gap: 6px; margin: 3px 0; cursor: pointer; user-select: none; }
+.chk .cnt { color: #9b7d58; font-size: 12px; margin-left: auto; }
+.grp-ico { width: 18px; text-align: center; }
+.nations { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 2px 0 0 24px; }
+.nations .chk img { width: 18px; height: 18px; }
+#q { width: 100%; padding: 6px 8px; border: 1px solid #a5835a; border-radius: 4px; background: #fbf5e4; font: inherit; }
+#results { list-style: none; margin: 4px 0 0; padding: 0; max-height: 260px; overflow-y: auto; }
+#results li, .ilist li { padding: 2px 4px; cursor: pointer; border-radius: 3px; display: flex; gap: 6px; align-items: center; }
+#results li:hover, .ilist li:hover { background: rgba(140,29,18,.12); }
+#results .sub, .ilist .sub { color: #8f7350; font-size: 12px; margin-left: auto; white-space: nowrap; }
+.coords { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; }
+.coords label { display: flex; flex-direction: column; font-size: 12px; color: var(--ink2); }
+.coords input { width: 100%; padding: 4px 6px; border: 1px solid #a5835a; border-radius: 3px; background: #fbf5e4; font: inherit; }
+.coords button { grid-column: 1 / 3; padding: 4px; border: 1px solid #8a6a40; border-radius: 3px; background: #d9c497; }
+.hint { font-size: 12px; color: #8f7350; margin: 4px 0; }
+
+#info { margin-top: 14px; border-top: 2px solid #8a6a40; padding-top: 6px; }
+#info h3 { margin: 0; font-size: 18px; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+#info h3 img { width: 40px; height: 40px; }
+#info .meta { font-size: 12px; color: #8f7350; margin: 2px 0 6px; }
+#info .ilist { list-style: none; padding: 0; margin: 0 0 6px; }
+#info h4 { margin: 8px 0 2px; font-size: 13px; color: var(--ink2); }
+#info .close { float: right; border: none; background: none; font-size: 16px; color: var(--ink2); }
+.thumbs { display: flex; flex-wrap: wrap; gap: 6px; }
+.thumbs figure { margin: 0; width: 140px; cursor: pointer; }
+.thumbs img { width: 140px; height: 140px; object-fit: cover; border: 1px solid #8a6a40; display: block; }
+.thumbs figcaption { font-size: 11px; color: var(--ink2); }
+
+/* ---------- карта ---------- */
+#view { position: fixed; left: var(--panel-w); right: 0; top: 0; bottom: 0; overflow: hidden; cursor: grab; touch-action: none; }
+#view.drag { cursor: grabbing; }
+#stage { position: absolute; left: 0; top: 0; width: 2048px; height: 2048px; transform-origin: 0 0; }
+.bg { position: absolute; left: 0; top: 0; width: 2048px; height: 2048px; user-select: none; }
+#bounds { opacity: .85; }
+#grid { position: absolute; left: 0; top: 0; width: 2048px; height: 2048px; pointer-events: none; }
+#grid line { stroke: rgba(70,45,20,.35); stroke-width: 1; vector-effect: non-scaling-stroke; }
+#grid text { fill: rgba(70,45,20,.75); font: 22px Georgia, serif; }
+#marks { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+
+.mk { position: absolute; width: 0; height: 0; }
+.mk > .in { position: absolute; left: 0; top: 0; transform: scale(var(--inv)); transform-origin: 0 0; }
+.mk .lbl { position: absolute; white-space: nowrap; cursor: pointer; pointer-events: auto;
+  text-shadow: 0 0 3px #f3e7c8, 0 0 3px #f3e7c8, 0 0 2px #f3e7c8; }
+.mk .lbl:hover { color: var(--accent); }
+.mk.hide { display: none; }
+
+.mk.island .lbl { transform: translate(-50%, -50%); font: italic bold 19px Georgia, serif; color: #7a1a10; letter-spacing: 1px; }
+.mk.region .lbl { transform: translate(-50%, -50%); font: italic 15px Georgia, serif; color: #6b3f1a; letter-spacing: 2px; text-transform: uppercase; }
+.mk.hidden .lbl { color: #3d5a6b; border-bottom: 1px dashed #3d5a6b; }
+.mk.town .dot { position: absolute; left: -5px; top: -5px; width: 10px; height: 10px; border-radius: 50%; background: #1d140c; border: 2px solid #f3e7c8; }
+.mk.town .flag { position: absolute; left: -3px; top: -27px; width: 26px; height: 26px; pointer-events: none; }
+.mk.town .lbl { left: 21px; top: -19px; font: bold 13.5px Georgia, serif; color: #24160b; }
+.mk.town.fromPaper .lbl { font-style: italic; }
+.mk.pt .ico { position: absolute; left: -9px; top: -9px; width: 18px; height: 18px; line-height: 18px; text-align: center;
+  font-size: 14px; border-radius: 50%; background: rgba(243,231,200,.85); border: 1px solid #6b4a2b; cursor: pointer; }
+.mk.lighthouse .ico { color: #b03a10; }
+.mk.shore .ico { color: #1f4a66; }
+.mk.custom .ico { color: #6a1f66; border-color: #6a1f66; }
+.mk.pt .lbl { left: 12px; top: -9px; font: 12.5px Georgia, serif; color: #2a3b4a; display: none; }
+.mk.region.part .lbl { display: none; font-size: 13px; }
+#view.near .mk.region.part .lbl, .mk.region.part.sel .lbl, #view.near .mk.pt .lbl, #view.shoretext .mk.pt .lbl, .mk.pt.sel .lbl, .mk.pt.hl .lbl, .mk.pt.hit .lbl, .mk.region.part.hit .lbl { display: block; }
+.mk.pin .ico { position: absolute; left: -11px; top: -30px; font-size: 26px; line-height: 30px; color: #c0140a; text-shadow: 0 0 3px #fff; pointer-events: none; }
+.mk.pin .lbl { left: 14px; top: -14px; font: bold 13px Georgia, serif; color: #c0140a; background: rgba(250,244,228,.9); padding: 1px 4px; border-radius: 3px; text-shadow: none; }
+
+.mk.sel .in::before { content: ""; position: absolute; left: -18px; top: -18px; width: 36px; height: 36px; border-radius: 50%;
+  border: 3px solid #e03a1a; animation: pulse 1.4s ease-out infinite; pointer-events: none; }
+.mk.island.sel .in::before, .mk.region.sel .in::before { left: -40px; top: -40px; width: 80px; height: 80px; }
+.mk.hl .lbl { color: #b02010 !important; }
+.mk.hl .ico { border-color: #b02010; box-shadow: 0 0 0 2px rgba(224,58,26,.5); }
+@keyframes pulse { 0% { transform: scale(.5); opacity: 1; } 100% { transform: scale(1.4); opacity: 0; } }
+
+.zoom { position: absolute; right: 12px; top: 12px; display: flex; flex-direction: column; gap: 4px; }
+.zoom button { width: 34px; height: 34px; font-size: 20px; border: 1px solid #8a6a40; border-radius: 4px; background: var(--paper); color: var(--ink); }
+#status { position: absolute; left: 10px; bottom: 8px; padding: 3px 10px; border-radius: 4px; pointer-events: none;
+  background: rgba(239,227,196,.92); border: 1px solid #8a6a40; font-size: 13px; font-variant-numeric: tabular-nums; }
+
+/* ---------- просмотр карты острова ---------- */
+#modal { position: fixed; inset: 0; z-index: 50; background: rgba(20,14,8,.92); display: flex; flex-direction: column; }
+#modal[hidden] { display: none; }
+.mhead { display: flex; align-items: center; gap: 14px; padding: 6px 12px; color: var(--paper); }
+#mTitle { font-size: 17px; }
+.mhint { font-size: 12px; opacity: .6; margin-right: auto; }
+#mClose { border: none; background: none; color: var(--paper); font-size: 22px; }
+#mView { flex: 1; position: relative; overflow: hidden; cursor: grab; }
+#mImg { position: absolute; left: 0; top: 0; transform-origin: 0 0; user-select: none; }
+
+@media (max-width: 700px) { :root { --panel-w: 0px; } #panel { display: none; } }

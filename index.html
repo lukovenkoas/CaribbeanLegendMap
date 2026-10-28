@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Карта Вест-Индии — Caribbean Legend</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="map.css">
+</head>
+<body>
+<aside id="panel">
+  <header>
+    <h1 data-t="title">Карта Вест-Индии</h1>
+    <div class="lang"><button data-lang="ru">RU</button><button data-lang="en">EN</button></div>
+  </header>
+
+  <section class="search">
+    <input id="q" type="search" autocomplete="off" data-tp="searchPh" placeholder="Поиск: город, остров, бухта…">
+    <label class="chk"><input type="checkbox" id="qfilter" checked> <span data-t="filterMap">фильтровать карту</span></label>
+    <ul id="results"></ul>
+  </section>
+
+  <section>
+    <h2 data-t="groups">Слои</h2>
+    <div id="groups"></div>
+  </section>
+
+  <section>
+    <h2 data-t="view">Вид</h2>
+    <label class="chk"><input type="radio" name="bg" value="clean" checked> <span data-t="bgClean">очищенная карта</span></label>
+    <label class="chk"><input type="radio" name="bg" value="paper"> <span data-t="bgPaper">карта игры с надписями</span></label>
+    <label class="chk"><input type="checkbox" id="lyGrid" checked> <span data-t="grid">сетка широт и долгот</span></label>
+    <label class="chk"><input type="checkbox" id="lyBounds"> <span data-t="bounds">границы акваторий</span></label>
+    <label class="chk"><input type="checkbox" id="lyShoreText"> <span data-t="shoreText">подписи бухт при любом масштабе</span></label>
+  </section>
+
+  <section>
+    <h2 data-t="goto">Точка по координатам</h2>
+    <div class="coords">
+      <label><span data-t="lat">Широта N</span> <input id="inLat" placeholder="15 28"></label>
+      <label><span data-t="lon">Долгота W</span> <input id="inLon" placeholder="63 28"></label>
+      <button id="goCoord" data-t="show">Показать</button>
+    </div>
+    <p class="hint" data-t="coordHint">Градусы и минуты через пробел, или «15°28'», или дробью 15.47. Правый клик по карте — поставить точку.</p>
+  </section>
+
+  <section id="info" hidden></section>
+</aside>
+
+<main id="view">
+  <div id="stage">
+    <img id="bgClean" class="bg" src="img/map_clean.jpg" alt="" draggable="false">
+    <img id="bgPaper" class="bg" alt="" draggable="false" hidden>
+    <img id="bounds" class="bg" src="img/boundaries.png" alt="" draggable="false" hidden>
+    <svg id="grid" viewBox="0 0 2048 2048"></svg>
+    <div id="marks"></div>
+  </div>
+  <div class="zoom">
+    <button id="zIn" title="+">+</button><button id="zOut" title="−">−</button><button id="zFit" title="fit">⤢</button>
+  </div>
+  <div id="status"></div>
+</main>
+
+<div id="modal" hidden>
+  <div class="mhead"><span id="mTitle"></span><span class="mhint" data-t="modalHint">колесо — масштаб, перетаскивание — сдвиг, Esc — закрыть</span><button id="mClose">✕</button></div>
+  <div id="mView"><img id="mImg" alt="" draggable="false"></div>
+</div>
+
+<script src="data.js"></script>
+<script src="extra.js"></script>
+<script src="map.js"></script>
+</body>
+</html>
