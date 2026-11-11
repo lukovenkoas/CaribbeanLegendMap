@@ -1,5 +1,7 @@
 # Интерактивная карта Вест-Индии (Caribbean Legend)
 
+![Caribbean Legend Interactive Map](map.jpg)
+
 Открыть `index.html` в браузере (двойным кликом, сервер не нужен).
 
 ## Что умеет
